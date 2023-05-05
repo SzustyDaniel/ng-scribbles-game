@@ -2,8 +2,10 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   ViewChild,
   signal,
 } from '@angular/core';
@@ -21,6 +23,7 @@ export class GameCanvasComponent implements AfterViewInit {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   @Input({required: true}) wordToDraw!: string;
+  @Output() onPaintingSubmit: EventEmitter<string> = new EventEmitter<string>();
 
   private ctx!: CanvasRenderingContext2D;
   private isDrawing = false;
@@ -120,6 +123,12 @@ export class GameCanvasComponent implements AfterViewInit {
 
   toggleEraser() {
     this.isErasing = !this.isErasing;
-    }
-    
+  }
+   
+  // takes the current canvas image and sends its data to be redrawn on a different canvas
+  submitPainting(){
+    const canvas = this.canvasRef.nativeElement;
+    const savedImage = canvas.toDataURL();
+    this.onPaintingSubmit.emit(savedImage);
+  }
 }

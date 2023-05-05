@@ -6,17 +6,18 @@
   (mouseup)="handleMouseUp()"
 ></canvas>
 <div class="canvas-controls">
-  <label for="brush-size">Brush Size:</label>
-  <input
+  <label for="brush-size">Brush Size:
+    <input
     type="number"
     id="brush-size"
     [(ngModel)]="brushSize"
     min="1"
     max="50"
   />
-
-  <br />
-  <label for="brush-color">Brush Color:</label>
-  <input type="color" id="brush-color" [(ngModel)]="brushColor" />
+  </label>
+  <label for="brush-color">Brush Color:
+    <input type="color" id="brush-color" [(ngModel)]="brushColor" />
+  </label>
   <button (click)="toggleEraser()">Eraser</button>
 </div>
+<button (click)="submitPainting()">Submit painting</button>
