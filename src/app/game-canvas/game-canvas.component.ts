@@ -19,7 +19,6 @@ export class GameCanvasComponent implements AfterViewInit {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   private ctx!: CanvasRenderingContext2D;
-
   private isDrawing = false;
   private lastX = 0;
   private lastY = 0;
@@ -31,9 +30,6 @@ export class GameCanvasComponent implements AfterViewInit {
     const canvas = this.canvasRef?.nativeElement;
     if (canvas) {
       this.ctx = canvas.getContext('2d')!;
-      this.ctx.strokeStyle = '#000';
-      this.ctx.lineJoin = 'round';
-      this.ctx.lineWidth = 1000;
     }
 
     this.resizeCanvas();
@@ -42,6 +38,7 @@ export class GameCanvasComponent implements AfterViewInit {
       this.resizeCanvas();
     });
 
+    // if user release mouse outside of canvas area finish drawing session
     window.addEventListener('mouseup', () => {
       this.handleMouseUp();
     });
@@ -49,11 +46,7 @@ export class GameCanvasComponent implements AfterViewInit {
 
   handleMouseDown(event: MouseEvent) {
     if (this.ctx) {
-      const rect = this.canvasRef.nativeElement.getBoundingClientRect();
-      const scaleX = this.canvasRef.nativeElement.width / rect.width;
-      const scaleY = this.canvasRef.nativeElement.height / rect.height;
-      const canvasX = (event.clientX - rect.left) * scaleX;
-      const canvasY = (event.clientY - rect.top) * scaleY;
+      const { canvasX, canvasY } = this.GetCanvasXY(event);
       this.isDrawing = true;
       [this.lastX, this.lastY] = [canvasX, canvasY];
 
@@ -63,11 +56,7 @@ export class GameCanvasComponent implements AfterViewInit {
 
   handleMouseMove(event: MouseEvent) {
     if (!this.isDrawing || !this.ctx) return;
-    const rect = this.canvasRef.nativeElement.getBoundingClientRect();
-    const scaleX = this.canvasRef.nativeElement.width / rect.width;
-    const scaleY = this.canvasRef.nativeElement.height / rect.height;
-    const canvasX = (event.clientX - rect.left) * scaleX;
-    const canvasY = (event.clientY - rect.top) * scaleY;
+    const { canvasX, canvasY } = this.GetCanvasXY(event);
     this.ctx.lineJoin = 'round';
     this.ctx.lineCap = 'round';
     this.ctx.beginPath();
@@ -83,6 +72,8 @@ export class GameCanvasComponent implements AfterViewInit {
     this.isDrawing = false;
   }
 
+  // Resizes the canvas to fit the parent element
+  // Saves the current canvas image and redraws it after resizing
   resizeCanvas() {
     const canvas = this.canvasRef.nativeElement;
     const parent = canvas.parentElement ?? document.body;
@@ -98,11 +89,23 @@ export class GameCanvasComponent implements AfterViewInit {
     img.src = savedImage;
   }
 
+  // Draws a dot on the canvas at the given x and y coordinates
   drawDot(x: number, y: number) {
     if (!this.ctx) return;
     this.ctx.beginPath();
     this.ctx.arc(x, y, this.brushSize / 2, 0, Math.PI * 2);
     this.ctx.fillStyle = this.brushColor;
     this.ctx.fill();
+  }
+
+  // Takes the mouse event and returns the x and y coordinates of the mouse on the canvas
+  // Considers canvas size and scale to keep the mouse position accurate regardless of canvas size
+  private GetCanvasXY(event: MouseEvent) {
+    const rect = this.canvasRef.nativeElement.getBoundingClientRect();
+    const scaleX = this.canvasRef.nativeElement.width / rect.width;
+    const scaleY = this.canvasRef.nativeElement.height / rect.height;
+    const canvasX = (event.clientX - rect.left) * scaleX;
+    const canvasY = (event.clientY - rect.top) * scaleY;
+    return { canvasX, canvasY };
   }
 }
