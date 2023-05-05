@@ -29,13 +29,17 @@ export class GameCanvasComponent implements AfterViewInit {
       this.ctx = canvas.getContext('2d')!;
       this.ctx.strokeStyle = '#000';
       this.ctx.lineJoin = 'round';
-      this.ctx.lineWidth = 5;
+      this.ctx.lineWidth = 1000;
     }
 
     this.resizeCanvas();
 
     window.addEventListener('resize', () => {
       this.resizeCanvas();
+    });
+
+    window.addEventListener('mouseup', () => {
+      this.handleMouseUp();
     });
   }
 
@@ -71,8 +75,16 @@ export class GameCanvasComponent implements AfterViewInit {
 
   resizeCanvas() {
     const canvas = this.canvasRef.nativeElement;
-    const parent = canvas.parentElement ?? document.body;
-    canvas.width = parent.clientWidth ?? window.innerWidth;
-    canvas.height = parent.clientHeight ?? window.innerHeight;
+  const parent = canvas.parentElement ?? document.body;
+  const savedImage = canvas.toDataURL();
+
+  canvas.width = parent.clientWidth ?? window.innerWidth;
+  canvas.height = parent.clientHeight ?? window.innerHeight;
+
+  const img = new Image();
+  img.onload = () => {
+    this.ctx.drawImage(img, 0, 0);
+  };
+  img.src = savedImage;
   }
 }
