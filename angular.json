@@ -22,7 +22,7 @@
       "prefix": "nsg",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
             "outputPath": "dist/ng-scribbles-game",
             "index": "src/index.html",
@@ -107,5 +107,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "4f0fa49a-277f-456a-8fff-fdbfa7d3c00b"
   }
 }
