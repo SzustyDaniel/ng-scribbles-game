@@ -22,10 +22,14 @@ export class GameCanvasComponent implements AfterViewInit {
   private isDrawing = false;
   private lastX = 0;
   private lastY = 0;
+  private readonly canvasBackgroundColor = '#FFF';
+
 
   brushSize = 10;
   brushColor = '#000000';
   isErasing = false;
+
+  
 
   ngAfterViewInit(): void {
     const canvas = this.canvasRef?.nativeElement;
@@ -63,7 +67,7 @@ export class GameCanvasComponent implements AfterViewInit {
     this.ctx.beginPath();
     this.ctx.moveTo(this.lastX, this.lastY);
     this.ctx.lineTo(canvasX, canvasY);
-    this.ctx.strokeStyle = !this.isErasing ? this.brushColor : '#FFF';
+    this.ctx.strokeStyle = !this.isErasing ? this.brushColor : this.canvasBackgroundColor;
     this.ctx.lineWidth = this.brushSize;
     this.ctx.stroke();
     [this.lastX, this.lastY] = [canvasX, canvasY];
@@ -95,7 +99,7 @@ export class GameCanvasComponent implements AfterViewInit {
     if (!this.ctx) return;
     this.ctx.beginPath();
     this.ctx.arc(x, y, this.brushSize / 2, 0, Math.PI * 2);
-    this.ctx.fillStyle = !this.isErasing ? this.brushColor : '#FFF';
+    this.ctx.fillStyle = !this.isErasing ? this.brushColor : this.canvasBackgroundColor;
     this.ctx.fill();
   }
 
