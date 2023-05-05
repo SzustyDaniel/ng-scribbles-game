@@ -56,6 +56,8 @@ export class GameCanvasComponent implements AfterViewInit {
       const canvasY = (event.clientY - rect.top) * scaleY;
       this.isDrawing = true;
       [this.lastX, this.lastY] = [canvasX, canvasY];
+
+      this.drawDot(canvasX, canvasY);
     }
   }
 
@@ -83,16 +85,24 @@ export class GameCanvasComponent implements AfterViewInit {
 
   resizeCanvas() {
     const canvas = this.canvasRef.nativeElement;
-  const parent = canvas.parentElement ?? document.body;
-  const savedImage = canvas.toDataURL();
+    const parent = canvas.parentElement ?? document.body;
+    const savedImage = canvas.toDataURL();
 
-  canvas.width = parent.clientWidth ?? window.innerWidth;
-  canvas.height = parent.clientHeight ?? window.innerHeight;
+    canvas.width = parent.clientWidth ?? window.innerWidth;
+    canvas.height = parent.clientHeight ?? window.innerHeight;
 
-  const img = new Image();
-  img.onload = () => {
-    this.ctx.drawImage(img, 0, 0);
-  };
-  img.src = savedImage;
+    const img = new Image();
+    img.onload = () => {
+      this.ctx.drawImage(img, 0, 0);
+    };
+    img.src = savedImage;
+  }
+
+  drawDot(x: number, y: number) {
+    if (!this.ctx) return;
+    this.ctx.beginPath();
+    this.ctx.arc(x, y, this.brushSize / 2, 0, Math.PI * 2);
+    this.ctx.fillStyle = this.brushColor;
+    this.ctx.fill();
   }
 }
