@@ -6,11 +6,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'nsg-game-canvas',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './game-canvas.component.html',
   styleUrls: ['./game-canvas.component.scss'],
 })
@@ -22,6 +23,9 @@ export class GameCanvasComponent implements AfterViewInit {
   private isDrawing = false;
   private lastX = 0;
   private lastY = 0;
+
+  brushSize = 10;
+  brushColor = '#000000';
 
   ngAfterViewInit(): void {
     const canvas = this.canvasRef?.nativeElement;
@@ -62,9 +66,13 @@ export class GameCanvasComponent implements AfterViewInit {
     const scaleY = this.canvasRef.nativeElement.height / rect.height;
     const canvasX = (event.clientX - rect.left) * scaleX;
     const canvasY = (event.clientY - rect.top) * scaleY;
+    this.ctx.lineJoin = 'round';
+    this.ctx.lineCap = 'round';
     this.ctx.beginPath();
     this.ctx.moveTo(this.lastX, this.lastY);
     this.ctx.lineTo(canvasX, canvasY);
+    this.ctx.strokeStyle = this.brushColor;
+    this.ctx.lineWidth = this.brushSize;
     this.ctx.stroke();
     [this.lastX, this.lastY] = [canvasX, canvasY];
   }

@@ -5,3 +5,10 @@
       (mouseup)="handleMouseUp()"
       style="border: 1px solid #000;"
     ></canvas>
+    <div>
+      <label for="brush-size">Brush Size:</label>
+      <input type="number" id="brush-size" [(ngModel)]="brushSize" min="1" max="50">
+      <br>
+      <label for="brush-color">Brush Color:</label>
+      <input type="color" id="brush-color" [(ngModel)]="brushColor">
+    </div>
