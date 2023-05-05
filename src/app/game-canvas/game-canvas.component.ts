@@ -2,8 +2,10 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Input,
   OnInit,
   ViewChild,
+  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,6 +19,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class GameCanvasComponent implements AfterViewInit {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
+
+  @Input({required: true}) wordToDraw!: string;
 
   private ctx!: CanvasRenderingContext2D;
   private isDrawing = false;
