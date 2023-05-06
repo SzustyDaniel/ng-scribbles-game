@@ -1,8 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
-html, body, ngs-root{
+@import './assets/styles/_font-face';
+
+body{
+    --background-color: #121212;
+    --text-color: #fff;
+    --elevated-background-color: rgba(255, 255, 255,0.1);
+    --success-color: #43A047;
+    --error-color: #C62828;
+    --accent-color: #1976D2;
+    --ternary-color: #FFC107;
+    --secondary-color: #546E7A;
+
+
+    
+    font-family: 'Roboto', sans-serif;
     height: 100svh;
     width: 100svw;
+    font-size: 16px;
+    background: var(--background-color);
+    color: var(--text-color);
 }
+
 
 // clearfix
 * {
@@ -11,14 +28,7 @@ html, body, ngs-root{
     margin: 0;
 }
 
-@mixin tablet-view {
-    @media (min-width: 768px) {
-        @content;
-    }
-}
-
-@mixin desktop-view {
-    @media (min-width: 1024px) {
-        @content;
-    }
+button, input{
+    font-size: inherit;
+    font-family: inherit;
 }
