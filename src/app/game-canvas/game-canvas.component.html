@@ -1,6 +1,9 @@
-<h3>{{wordToDraw}}</h3>
+<h3 class="canvas-word">{{wordToDraw}}</h3>
 <canvas
   #canvas
+  (touchstart)="handleMouseDown($event)"
+  (touchmove)="handleMouseMove($event)"
+  (touchend)="handleMouseUp()"
   (mousedown)="handleMouseDown($event)"
   (mousemove)="handleMouseMove($event)"
   (mouseup)="handleMouseUp()"
@@ -11,13 +14,15 @@
     type="number"
     id="brush-size"
     [(ngModel)]="brushSize"
-    min="1"
-    max="50"
   />
+  <span>{{brushSize}}</span>
   </label>
   <label for="brush-color">Brush Color:
     <input type="color" id="brush-color" [(ngModel)]="brushColor" />
+    
   </label>
   <button (click)="toggleEraser()">Eraser</button>
+
+  <button (click)="submitPainting()">Submit painting</button>
 </div>
-<button (click)="submitPainting()">Submit painting</button>
+

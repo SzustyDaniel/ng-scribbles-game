@@ -56,8 +56,9 @@ export class GameCanvasComponent implements AfterViewInit {
     });
   }
 
-  handleMouseDown(event: MouseEvent) {
+  handleMouseDown(event: MouseEvent | TouchEvent) {
     if (this.ctx) {
+      event.preventDefault();
       const { canvasX, canvasY } = this.GetCanvasXY(event);
       this.isDrawing = true;
       [this.lastX, this.lastY] = [canvasX, canvasY];
@@ -66,8 +67,9 @@ export class GameCanvasComponent implements AfterViewInit {
     }
   }
 
-  handleMouseMove(event: MouseEvent) {
+  handleMouseMove(event: MouseEvent | TouchEvent) {
     if (!this.isDrawing || !this.ctx) return;
+    event.preventDefault();
     const { canvasX, canvasY } = this.GetCanvasXY(event);
     this.ctx.lineJoin = 'round';
     this.ctx.lineCap = 'round';
@@ -112,12 +114,25 @@ export class GameCanvasComponent implements AfterViewInit {
 
   // Takes the mouse event and returns the x and y coordinates of the mouse on the canvas
   // Considers canvas size and scale to keep the mouse position accurate regardless of canvas size
-  private GetCanvasXY(event: MouseEvent) {
+  private GetCanvasXY(event: MouseEvent | TouchEvent) {
+    let clientX;
+    let clientY;
+    
     const rect = this.canvasRef.nativeElement.getBoundingClientRect();
     const scaleX = this.canvasRef.nativeElement.width / rect.width;
     const scaleY = this.canvasRef.nativeElement.height / rect.height;
-    const canvasX = (event.clientX - rect.left) * scaleX;
-    const canvasY = (event.clientY - rect.top) * scaleY;
+
+    if (event instanceof MouseEvent) {
+      clientX = event.clientX;
+      clientY = event.clientY;
+    } else {
+      // Assume it's a TouchEvent
+      clientX = event.touches[0].clientX;
+      clientY = event.touches[0].clientY;
+    }
+
+    const canvasX = (clientX - rect.left) * scaleX;
+    const canvasY = (clientY - rect.top) * scaleY;
     return { canvasX, canvasY };
   }
 
