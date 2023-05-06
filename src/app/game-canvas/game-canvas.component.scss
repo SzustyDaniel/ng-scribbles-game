@@ -95,28 +95,3 @@
     }
 }
 
-.submit-button {
-  border-radius: 50%;
-  background: var(--success-color);
-  width: 3rem;
-  height: 3rem;
-  box-shadow: none;
-  border: none;
-
-  position: absolute;
-  bottom: 0.5rem;
-  right: 0.25rem;
-
-  &:hover{
-    cursor: pointer;
-  }
-
-  &:active{
-    background: var(--accent-color);
-  }
-
-  fa-icon {
-    font-size: 1.5rem;
-    color: var(--text-color);
-  }
-}
