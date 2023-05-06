@@ -17,12 +17,16 @@
   />
   <span>{{brushSize}}</span>
   </label>
-  <label for="brush-color">Brush Color:
+  <label class="color-picker" for="brush-color">
+    <span>Brush Color:</span>
     <input type="color" id="brush-color" [(ngModel)]="brushColor" />
-    
+    <button class="eraser-button" [ngClass]="setEraserIndication()" (click)="toggleEraser()">
+      <fa-icon [icon]="faEraserIcon"></fa-icon>
+    </button>  
   </label>
-  <button (click)="toggleEraser()">Eraser</button>
 
-  <button (click)="submitPainting()">Submit painting</button>
+  <button class="submit-button" (click)="submitPainting()">
+    <fa-icon [icon]="faCheckIcon"></fa-icon>
+  </button> 
 </div>
 

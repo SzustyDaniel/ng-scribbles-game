@@ -11,11 +11,13 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faCheck, faEraser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'nsg-game-canvas',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FontAwesomeModule],
   templateUrl: './game-canvas.component.html',
   styleUrls: ['./game-canvas.component.scss'],
 })
@@ -35,7 +37,8 @@ export class GameCanvasComponent implements AfterViewInit {
   brushSize = 10;
   brushColor = '#000000';
   isErasing = false;
-
+  faCheckIcon = faCheck;
+  faEraserIcon = faEraser;
   
 
   ngAfterViewInit(): void {
@@ -138,6 +141,10 @@ export class GameCanvasComponent implements AfterViewInit {
 
   toggleEraser() {
     this.isErasing = !this.isErasing;
+  }
+
+  setEraserIndication(){
+    return {'erasing': this.isErasing};
   }
    
   // takes the current canvas image and sends its data to be redrawn on a different canvas
