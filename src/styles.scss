@@ -1,1 +1,58 @@
-/* You can add global styles to this file, and also import other style files */
+@import './assets/styles/_font-face';
+
+body{
+    --background-color: #121212;
+    --text-color: #fff;
+    --elevated-background-color: rgba(255, 255, 255,0.1);
+    --success-color: #43A047;
+    --error-color: #C62828;
+    --accent-color: #1976D2;
+    --ternary-color: #FFC107;
+    --secondary-color: #546E7A;
+
+
+    
+    font-family: 'Roboto', sans-serif;
+    height: 100svh;
+    width: 100svw;
+    font-size: 16px;
+    background: var(--background-color);
+    color: var(--text-color);
+}
+
+
+// clearfix
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+button, input{
+    font-size: inherit;
+    font-family: inherit;
+}
+
+
+.submit-button {
+    border-radius: 50%;
+    background: var(--success-color);
+    width: 3rem;
+    height: 3rem;
+    box-shadow: none;
+    border: none;
+  
+    &:hover{
+      cursor: pointer;
+    }
+  
+    &:active{
+      background: var(--accent-color);
+    }
+  
+    fa-icon {
+      font-size: 1.5rem;
+      color: var(--text-color);
+    }
+  }
+  

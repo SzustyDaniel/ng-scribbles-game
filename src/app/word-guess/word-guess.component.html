@@ -1,7 +1,11 @@
-<h3>Guess the word</h3>
+<h3 class="word">Guess the word</h3>
 <img [src]="canvasData" />
-<label>
-    My Guess:
-    <input type="text" [(ngModel)]="guess" />
-</label>
-<button (click)="submitGuess()">Submit guess</button>
+<div class="guesser-controls">
+    <label class="guess-input">
+        <span>My Guess:</span>
+        <input type="text" [(ngModel)]="guess" />
+    </label>
+    <button class="submit-button" (click)="submitGuess()">
+        <fa-icon [icon]="faCheckIcon"></fa-icon>
+    </button>
+</div>
